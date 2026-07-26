@@ -5,6 +5,10 @@ spring:
   application:
     name: gateway-server # 应用名称
   cloud:
+    sentinel:
+      transport:
+        port: 8725
+        dashboard: localhost:8088
     gateway:
       # 路由规则
       routes:
