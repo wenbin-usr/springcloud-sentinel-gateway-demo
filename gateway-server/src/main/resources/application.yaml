@@ -1,0 +1,20 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: gateway-server # 应用名称
+  cloud:
+    gateway:
+      # 路由规则
+      routes:
+        - id: goods-service           # 路由 ID，唯一
+          uri: lb://goods-service     # lb:// 根据服务名称从注册中心获取服务请求地址
+          predicates:                   # 断言（判断条件）
+            - Path=/goods/**          # 匹配对应 URL 的请求，将匹配到的请求追加在目标 URI 之后
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/order/**
+    nacos:
+      server-addr: 47.106.155.227:8848
