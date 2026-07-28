@@ -436,12 +436,12 @@ public Mono<Void> handle(ServerWebExchange exchange) {
 
 ```mermaid
 graph LR
-    A["FilteringWebHandler"] --> B["DefaultGatewayFilterChain<br/>filters=(f1, f2, ..., fn)"]
+    A["FilteringWebHandler"] --> B["DefaultGatewayFilterChain<br/>filters: f1, f2 ... fn"]
     B --> C["filter ①: AdaptCachedBodyGlobalFilter<br/>order=Integer.MIN_VALUE+1000"]
-    C -->|chain.filter(exchange)| D["filter ②: GatewayMetricsFilter"]
-    D -->|chain.filter(exchange)| E["filter ③: RouteToRequestUrlFilter<br/>解析 lb:// 为 URI"]
-    E -->|chain.filter(exchange)| F["filter ④: LoadBalancerClientFilter<br/>选择实例 IP:Port"]
-    F -->|chain.filter(exchange)| G["filter 末: NettyRoutingFilter<br/>真正 HTTP 转发"]
+    C -->|chain.filter| D["filter ②: GatewayMetricsFilter"]
+    D -->|chain.filter| E["filter ③: RouteToRequestUrlFilter<br/>解析 lb:// 为 URI"]
+    E -->|chain.filter| F["filter ④: LoadBalancerClientFilter<br/>选择实例 IP:Port"]
+    F -->|chain.filter| G["filter 末: NettyRoutingFilter<br/>真正 HTTP 转发"]
     G -->|转发到后端| H["goods-service:port"]
     H -->|响应回流| I["Mono 回溯执行后半部分"]
 ```
